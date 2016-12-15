@@ -1,0 +1,7 @@
+{
+  "name": "demo-app",
+  "short_name": "demo-app",
+  "description": "This is a Demo App for simple filtering of data using Polymer.",
+  "start_url": "/",
+  "display": "standalone"
+}

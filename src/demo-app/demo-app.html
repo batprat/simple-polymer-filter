@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../employee-filter/employee-filter.html">
+
+<dom-module id="demo-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <iron-ajax auto="true" url="data.json" handle-as="json" on-response="handleResponse"></iron-ajax>
+    <employee-filter employees="{{employees}}"></employee-filter>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'demo-app',
+
+      properties: {
+        employees: {
+            type: Object,
+            value: []
+        }
+      },
+
+      handleResponse: function(event) {
+          this.set('employees', event.detail.response);
+      }
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,63 @@
+<dom-module id="employee-filter">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .employee-card {
+                padding: 10px;
+                border: 1px dashed #ADADAD;
+                border-radius: 10px;
+                margin: 10px;
+                display: inline-block;
+            }
+
+            .label-container {
+                text-align: center;
+                padding: 20px;
+            }
+
+            .key {
+                font-weight: bold;
+            }
+        </style>
+        <div class="label-container">
+            <label for="inp">Filter Employees:&nbsp;</label><input placeholder="Name, Country" id="inp" type="text" value="{{filterVal::input}}" />
+        </div>
+        <template is="dom-repeat" items="{{employees}}" filter="{{_filterEmployees(filterVal)}}">
+            <div class="employee-card">
+                <div>
+                    <span class="key">Name: </span><span class="value">{{item.name}}</span>
+                </div>
+                <div>
+                    <span class="key">From: </span><span class="value">{{item.country}}</span>
+                </div>
+            </div>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            is: 'employee-filter',
+            properties: {
+                employees: {
+                    type: Object,
+                    observer: '_onEmployeesChange'
+                }
+            },
+
+            _onEmployeesChange: function(newVal, oldVal) {
+                this.set('employees', newVal);
+                this.set('filteredEmployees', newVal);
+            },
+
+            _filterEmployees: function(val) {
+                var regex = new RegExp('^' + val, 'i');
+                return function(employee) {
+                    if (!val) return true;
+                    if (!employee) return false;
+                    return (employee.name && regex.test(employee.name)) || (employee.country && regex.test(employee.country));
+                };
+            }
+        });
+    </script>
+</dom-module>
